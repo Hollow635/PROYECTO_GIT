@@ -9,7 +9,10 @@ const startBtn = document.querySelector("#start"),
   hitsOver = document.querySelector("#hits-over"),
   accuracyOver = document.querySelector("#accuracy-over"),
   hearts = document.querySelectorAll(".heart"),
-  restartBtns = document.querySelectorAll(".restart");
+  restartBtns = document.querySelectorAll(".restart"),
+  fullScreenBtn = document.querySelector("#fullscreen"),
+  minimizeBtn = document.querySelector("#minimize");
+
 
 let time = 0,
     unlimited = false,
@@ -91,7 +94,7 @@ function createRandomCircle() {
 
     circle.addEventListener("animationend", () => {
         circle.remove();
-        addMissed(); // Call this to handle missed attempts
+        addMissed(); 
     });
 } 
 
@@ -101,7 +104,7 @@ board.addEventListener("click", (e) => {
         e.target.remove();
         hitsEl.innerHTML = hits;
     } else {
-        addMissed(); // Handle missed clicks
+        addMissed(); 
     }
     calculateAccuracy();
 });
@@ -160,4 +163,39 @@ function restartGame() {
     hearts.forEach((heart) => {
         heart.classList.remove("dead");
     });
+}
+
+fullScreenBtn.addEventListener("click", fullScreen);
+
+let elem = document.documentElement;
+
+function fullScreen() {
+    if(elem.requestFullscreen){
+        elem.requestFullscreen();
+    } else if (elem.mozRequestFullScreen){
+        elem.mozRequestFullScreen();
+    } else if (elem.webkitRequestFullsScreen) {
+        elem.webkitRequestFullsScreen();
+    } else if (elem.msRequestFullscreen) {
+        elem.msRequestFullscreen();
+    }
+
+    fullScreenBtn.style.display = "none"
+    fullScreenBtn.style.display = "block"
+}
+
+minimizeBtn.addEventListener("click", minimize);
+
+function minimize() {
+    if(document.exitfullscreen) {
+        document.exitfullscreen();
+    } else if (document.mozCancelFullsScreen) {
+        document.mozCancelFullsScreen();
+    } else if(document.webkitExitFullscreen) {
+        document.webkitExitFullscreen();
+    } else if(document.msExitFullscreen) {
+        document.msExitFullscreen();
+    }
+    minimizeBtn.style.display = "none"
+    minimizeBtn.style.display = "block"
 }

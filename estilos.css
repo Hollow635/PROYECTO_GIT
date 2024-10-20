@@ -64,3 +64,120 @@ h1 {
   .list li {
     margin: 10px;
   }
+
+  .list li {
+    margin: 10px;
+  }
+  
+  .stats {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  .stats div {
+    display: flex;
+    align-items: center;
+  }
+
+  .stats div p {
+    margin: 0 0.5rem;
+  }
+
+  .stats div span {
+    margin-left: 10px;
+    color: var(--primary-color);
+  }
+
+  .lives {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  
+  .lives .heart {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .lives .heart.dead {
+    opacity: 0.5;
+  }
+  
+  .board {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    flex: 1;
+    background: #031e2e;
+    overflow: hidden;
+  }
+
+  .options {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+  }
+  #minimize {
+    display: none;
+  }
+  .circle {
+    background-color: var(--primary-color);
+    position: absolute;
+    animation: circle 2s linear forwards;
+    border-radius: 50%;
+  }
+  
+  @keyframes circle {
+    100% {
+      transform: scale(0);
+    }
+  }
+  
+  .results {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-bottom: 20px;
+  }
+  
+  .results p {
+    font-size: 2rem;
+  }
+  
+  .results p span {
+    color: var(--primary-color);
+    margin-left: 10px;
+  }
+  
+  /* media quiries */
+  
+  @media (max-width: 768px) {
+    h1 {
+      font-size: 3rem;
+    }
+    .btn {
+      font-size: 1.2rem;
+    }
+    .stats {
+      gap: 20px;
+      flex-direction: column;
+    }
+    .stats div {
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 10px;
+    }
+    .lives {
+      margin-bottom: 10px;
+    }
+  } 

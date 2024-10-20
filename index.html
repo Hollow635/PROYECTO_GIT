@@ -10,11 +10,11 @@
     <title>Entrenador de Aim</title>
   </head>
   <body> 
-    <div class="screen ">
+    <div class="screen up">
       <h1>Entrenador de Aim</h1>
       <button class="btn" id="start">Iniciar Juego</button>
     </div>
-    <div class="screen">
+    <div class="screen up">
       <h1>Eliga el tiempo</h1>
       <ul class="list" id="time-list">
         <li>
@@ -34,7 +34,43 @@
         </li>
       </ul>
     </div>
-    
+    <div class="screen up">
+      <h1>Eliga la dificultad</h1>
+      <ul class="list" id="difficulty-list">
+        <li>
+          <button class="btn difficulty-btn" data-difficulty="1">Facil</button>
+        </li>
+        <li>
+          <button class="btn difficulty-btn" data-difficulty="2">Medio</button>
+        </li>
+        <li>
+          <button class="btn difficulty-btn" data-difficulty="3">Dificil</button>
+        </li>
+      </ul>
+    </div>
+    <div class="screen" id="game-screen" >
+
+       <div class="stats">
+        <div class="info">
+          <p>Tiempo:<span id="time">00:00:00</span></p>
+          <p>Aciertos:<span id="hits">0</span></p>
+          <p>Precision:<span id="accuracy">0%</span></p>
+        </div>
+        <div class="lives">
+          <img class="heart" id="heart1" src="imagenes/heart.png" alt="" />
+          <img class="heart" id="heart2" src="imagenes/heart.png" alt="" />
+          <img class="heart" id="heart3" src="imagenes/heart.png" alt="" />
+        </div>
+      </div>
+      <div class="board" id="board"></div>
+      <div class="options">
+        <button class="btn restart" >Reiniciar</button>
+        <button class="btn" id="fullscreen">Pantalla Completa</button>
+
+        <button class="btn" id="minimize">Minimizar</button>
+      
+     </div> 
+    </div>
 
     <script src="script.js"></script>
   </body>

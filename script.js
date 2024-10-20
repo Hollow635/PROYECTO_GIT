@@ -4,7 +4,12 @@ const startBtn = document.querySelector("#start"),
   difficultyList = document.querySelector("#difficulty-list"),
   timeEl = document.querySelector("#time"),
   board = document.querySelector("#board"),
-  hitsEl = document.querySelector("#hits");  
+  hitsEl = document.querySelector("#hits"),
+  accuracyEl = document.querySelector("#accuracy"),
+  hitsOver = document.querySelector("#hits-over"),
+  accuracyOver = document.querySelector("#accuracy-over"),
+  hearts = document.querySelectorAll(".heart"),
+  restartBtns = document.querySelectorAll(".restart");
 
 let time = 0,
     unlimited = false,
@@ -12,7 +17,7 @@ let time = 0,
     playing = false,
     hits = 0,
     missed = 0,
-    accuracy = "0%",
+    accuracy = 0,
     interval;
 
 startBtn.addEventListener("click", () => {
@@ -38,7 +43,7 @@ difficultyList.addEventListener("click", (e) => {
 function startGame() {
     playing = true;
     interval = setInterval(decreaseTime, 1000);
-    createRandomCircle(); // Llamar a createRandomCircle en interval para crear círculos repetidamente
+    createRandomCircle();
 }
 
 function decreaseTime() {
@@ -47,31 +52,26 @@ function decreaseTime() {
         return;
     }
     if (time === 0) {
-        clearInterval(interval); 
-        // Aquí puedes agregar lógica para finalizar el juego
-        return;
+        finishGame();
+    } else {
+        time--;
+        setTime(formatTime(time));
+        createRandomCircle(); 
     }
-    let current = --time;
-    let milliseconds = time * 1000;
-
-    let minutes = Math.floor(milliseconds / (1000 * 60));
-    let seconds = Math.floor((milliseconds % (1000 * 60)) / 1000);
-
-    seconds = seconds < 10 ? "0" + seconds : seconds;
-    minutes = minutes < 10 ? "0" + minutes : minutes;
-
-    setTime(`${minutes}:${seconds}`); 
-    createRandomCircle(); // Crear un nuevo círculo cada segundo
 }
 
 function setTime(time) {
     timeEl.innerHTML = time; 
 }
 
+function formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${minutes < 10 ? "0" + minutes : minutes}:${secs < 10 ? "0" + secs : secs}`;
+}
+
 function createRandomCircle() {
-    if (!playing) {
-        return;
-    }
+    if (!playing) return;
 
     const circle = document.createElement("div");
     const size = getRandomNumber(30, 100);
@@ -80,49 +80,84 @@ function createRandomCircle() {
     const x = getRandomNumber(0, width - size);
     const y = getRandomNumber(0, height - size);
     circle.classList.add("circle");
-    circle.style.width = `${size}px`; // Corregido para usar comillas invertidas
-    circle.style.height = `${size}px`; // Corregido para usar comillas invertidas
-    circle.style.top = `${y}px`; // Corregido para usar comillas invertidas
-    circle.style.left = `${x}px`; // Corregido para usar comillas invertidas
-
-    let color = Math.floor(Math.random() * colors.length); // Usar la longitud del array
-    circle.style.background = `${colors[color]}`; // Corregido para usar comillas invertidas
+    circle.style.width = `${size}px`; 
+    circle.style.height = `${size}px`; 
+    circle.style.top = `${y}px`; 
+    circle.style.left = `${x}px`; 
+    circle.style.background = `${colors[Math.floor(Math.random() * colors.length)]}`;
     board.append(circle);
 
-    // Ajustes de dificultad
-    if (difficulty === 1) {
-        circle.style.animationDuration = "3s";
-    } else if (difficulty === 2) {
-        circle.style.animationDuration = "2s"; // Corregido 'animetion' a 'animation'
-    } else {
-        circle.style.animationDuration = "1s";
-    }
-
-    //crear un nueco circluo cuando el actual desapericio
+    circle.style.animationDuration = `${1 + difficulty}s`;
 
     circle.addEventListener("animationend", () => {
         circle.remove();
-        createRandomCircle();
+        addMissed(); // Call this to handle missed attempts
     });
 } 
 
-//obtener evento al presionar en un circulo
-
 board.addEventListener("click", (e) => {
-    if (e.target.classList.contains("circle")){
-        //aumentar golpes de 1 en 1
+    if (e.target.classList.contains("circle")) {
         hits++;
-        //quitar circulo
         e.target.remove();
+        hitsEl.innerHTML = hits;
     } else {
-        //si no clickea sobre un circulo es un fallo
-        missed++;
+        addMissed(); // Handle missed clicks
     }
-
-    //mostrar aciertos
-    hitsEl.innerHTML = hits;
+    calculateAccuracy();
 });
 
+function finishGame() {
+    playing = false;
+    clearInterval(interval);
+    board.innerHTML = "";
+    screens[3].classList.add("up");
+    hitsEl.innerHTML = 0;
+    timeEl.innerHTML = "00:00";
+    accuracyEl.innerHTML = "0%";
+
+    hitsOver.innerHTML = hits;
+    accuracyOver.innerHTML = `${accuracy}%`;
+}
+
+function addMissed() {
+    missed++;
+    for (let heart of hearts) {
+        if (!heart.classList.contains("dead")) {
+            heart.classList.add("dead");
+            break;
+        }
+    }
+
+    if (Array.from(hearts).every(heart => heart.classList.contains("dead"))) {
+        finishGame();
+    }
+}
+
+function calculateAccuracy() {
+    accuracy = hits + missed > 0 ? (hits / (hits + missed)) * 100 : 0;
+    accuracy = accuracy.toFixed(2);
+    accuracyEl.innerHTML = `${accuracy}%`;
+}
+
 function getRandomNumber(min, max) {
-    return Math.floor(Math.random() * (max - min) + min); // Corregido 'Math.florr' a 'Math.floor'
+    return Math.floor(Math.random() * (max - min) + min); 
+}
+
+restartBtns.forEach((btn) => {
+    btn.addEventListener("click", restartGame);
+});
+
+function restartGame() {
+    finishGame();
+    screens.forEach(screen => screen.classList.remove("up"));
+    time = 0;
+    difficulty = 0;
+    hits = 0;    
+    missed = 0;
+    accuracy = 0;
+    playing = false;
+    unlimited = false;
+    hearts.forEach((heart) => {
+        heart.classList.remove("dead");
+    });
 }

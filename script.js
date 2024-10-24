@@ -1,18 +1,17 @@
 const startBtn = document.querySelector("#start"), 
-  screens = document.querySelectorAll(".screen"),
-  timeList = document.querySelector("#time-list"),
-  difficultyList = document.querySelector("#difficulty-list"),
-  timeEl = document.querySelector("#time"),
-  board = document.querySelector("#board"),
-  hitsEl = document.querySelector("#hits"),
-  accuracyEl = document.querySelector("#accuracy"),
-  hitsOver = document.querySelector("#hits-over"),
-  accuracyOver = document.querySelector("#accuracy-over"),
-  hearts = document.querySelectorAll(".heart"),
-  restartBtns = document.querySelectorAll(".restart"),
-  fullScreenBtn = document.querySelector("#fullscreen"),
-  minimizeBtn = document.querySelector("#minimize");
-
+    screens = document.querySelectorAll(".screen"),
+    timeList = document.querySelector("#time-list"),
+    difficultyList = document.querySelector("#difficulty-list"),
+    timeEl = document.querySelector("#time"),
+    board = document.querySelector("#board"),
+    hitsEl = document.querySelector("#hits"),
+    accuracyEl = document.querySelector("#accuracy"),
+    hitsOver = document.querySelector("#hits-over"),
+    accuracyOver = document.querySelector("#accuracy-over"),
+    hearts = document.querySelectorAll(".heart"),
+    restartBtns = document.querySelectorAll(".restart"),
+    fullScreenBtn = document.querySelector("#fullscreen"),
+    minimizeBtn = document.querySelector("#minimize");
 
 let time = 0,
     unlimited = false,
@@ -90,13 +89,26 @@ function createRandomCircle() {
     circle.style.background = `${colors[Math.floor(Math.random() * colors.length)]}`;
     board.append(circle);
 
-    circle.style.animationDuration = `${1 + difficulty}s`;
+    circle.style.animationDuration = `${getAnimationDuration(difficulty)}s`; // Usar la nueva función
 
     circle.addEventListener("animationend", () => {
         circle.remove();
         addMissed(); 
     });
 } 
+
+function getAnimationDuration(difficulty) {
+    switch (difficulty) {
+        case 1: // Dificultad fácil
+            return 3; // 3 segundos
+        case 2: // Dificultad media
+            return 2; // 2 segundos
+        case 3: // Dificultad difícil
+            return 1; // 1 segundo
+        default:
+            return 4; // Valor por defecto en caso de que no se establezca una dificultad
+    }
+}
 
 board.addEventListener("click", (e) => {
     if (e.target.classList.contains("circle")) {
@@ -193,8 +205,8 @@ function minimize() {
         document.mozCancelFullsScreen();
     } else if(document.webkitExitFullscreen) {
         document.webkitExitFullscreen();
-    } else if(document.msExitFullscreen) {
-        document.msExitFullscreen();
+    } else if(document.msRequestFullscreen) {
+        document.msRequestFullscreen();
     }
     minimizeBtn.style.display = "none"
     minimizeBtn.style.display = "block"

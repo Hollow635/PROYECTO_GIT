@@ -1,0 +1,201 @@
+@import url(https://fonts.googleapis.com/css?family=Montserrat:100,200,300,regular,500,600,700,800,900,100italic,200italic,300italic,italic,500italic,600italic,700italic,800italic,900italic);
+
+:root {
+  --primary-color: #ff8800;
+  --secondary-color: #c0c0c0;
+  --background-color: #1e1f26;
+  --screen-bg-color: #011623;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--background-color);
+  color: #faebd7;
+  font-family: "Montserrat", sans-serif;
+  height: 100vh;
+  overflow: hidden;
+  margin: 0;
+  text-align: center;
+}
+
+h1 {
+  line-height: 1.4;
+  font-size: 4rem;
+}
+
+.btn {
+  background-color: transparent;
+  border: 3px solid var(--secondary-color);
+  border-radius: 30px;
+  color: #faebd7;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 0.5rem 1rem;
+  font-size: 1.5rem;
+  transition: background-color 0.3s, color 0.3s; /* Transición suave */
+}
+
+.btn:hover {
+  border: 3px solid var(--primary-color);
+  color: var(--primary-color);
+}
+
+.button-group {
+  display: flex;
+  justify-content: center; /* Centrar los botones */
+  gap: 20px; /* Espacio entre botones */
+  margin-top: 20px; /* Espacio arriba del grupo de botones */
+}
+
+.btn.back {
+  background-color: var(--secondary-color); /* Color diferente para el botón "Volver Atrás" */
+  color: #1e1f26;
+}
+
+.btn.back:hover {
+  background-color: var(--primary-color); /* Color al pasar el ratón */
+  color: white;
+}
+
+.screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  transition: margin 0.5s ease-out;
+  background-color: var(--screen-bg-color);
+}
+
+.screen.up {
+  margin-top: -100vh;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+}
+
+.list li {
+  margin: 10px;
+}
+
+.stats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.stats div {
+  display: flex;
+  align-items: center;
+}
+
+.stats div p {
+  margin: 0 0.5rem;
+}
+
+.stats div span {
+  margin-left: 10px;
+  color: var(--primary-color);
+}
+
+.lives {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.lives .heart {
+  width: 20px;
+  height: 20px;
+}
+
+.lives .heart.dead {
+  opacity: 0.5;
+}
+
+.board {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  flex: 1;
+  background: #031e2e;
+  overflow: hidden;
+}
+
+.options {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+#minimize {
+  display: none;
+}
+
+.circle {
+  background-color: var(--primary-color);
+  position: absolute;
+  animation: circle 2s linear forwards;
+  border-radius: 50%;
+}
+
+@keyframes circle {
+  100% {
+    transform: scale(0);
+  }
+}
+
+.results {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin-bottom: 20px;
+}
+
+.results p {
+  font-size: 2rem;
+}
+
+.results p span {
+  color: var(--primary-color);
+  margin-left: 10px;
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 3rem;
+  }
+  .btn {
+    font-size: 1.2rem;
+  }
+  .stats {
+    gap: 20px;
+    flex-direction: column;
+  }
+  .stats div {
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+  .lives {
+    margin-bottom: 10px;
+  }
+}
